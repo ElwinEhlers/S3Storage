@@ -87,7 +87,6 @@ Wenn du versuchst, ein Objekt zu löschen, wird ein Delete Marker erstellt.<br>
 Delete Marker = neueste Version, die anzeigt: „Datei gelöscht“.<br>
 Alte Version(en) bleiben im Bucket, sind aber nicht die „neueste Version“ → Browser zeigt sie nicht mehr automatisch.<br>
 8️⃣ Sichtbar machen ohne neu hochzuladen<br>
-Es gibt zwei Möglichkeiten:<br>
 Delete Marker entfernen (die alte Version bleibt bestehen)<br>
 Du brauchst die VersionID des Delete Markers<br>
 ```html
@@ -99,10 +98,8 @@ Dann entferne den Delete Marker:<br>
 ```html
 aws s3api delete-object --bucket bhvhomesupport --key "TestRetention.txt" --version-id "dM-12345" --endpoint-url https://nbg1.your-objectstorage.com --profile hetzner
 ```
-{<br>
-    "DeleteMarker": true,v
-    "VersionId": "dM-12345"v
-}v
+"DeleteMarker": "true" <br>
+"VersionId": "dM-12345" <br>
 Alte Version wird wieder die neueste Version<br>
 Datei wird im Browser wieder angezeigt<br>
 Object Lock / Retention bleibt aktiv<br><p>
