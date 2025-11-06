@@ -1,11 +1,17 @@
 # S3Storage
-Object-Storage bei Hetzner
+Object-Storage bei Hetzner mit AWS CLI in der PowerShell einrichten.
 
-AWS CLI unter Windows installieren<br>
+AWS CLI unter Windows installieren:<br>
 https://awscli.amazonaws.com/AWSCLIV2.msi
 ```html
 aws --version
 ```
+In der Hetzner GUI unter Object-Storage einen Bucket erstellen
+Object Lock aktivieren Es verhindert das ändern oder löschen.<p>
+Sichtbarkeit Privat<br>
+
+Schutz aktivieren so ist das Bucket vor verrehentlichen löschen in der GUI geschützt.
+Zugangsdaten einrichten:
 ```html
 aws configure --profile hetzner
 ```
@@ -30,18 +36,18 @@ aws_secret_access_key = DEIN_SECRET<br>
 aws s3api list-buckets --profile hetzner --endpoint-url https://nbg1.your-objectstorage.com
 ```
 Hetzner S3 Object Lock – Test „TestRetention“<br>
-1️⃣ Lokalen Ordner und Testdatei erstellen<br>
+1.) Lokalen Ordner und Testdatei erstellen<br>
 ```html
 New-Item -Path "C:\temp" -ItemType Directory -Force
 ```
 ```html
 New-Item -Path "C:\temp\TestRetention.txt" -ItemType File -Value "Dies ist TestRetention" -Force
 ```
-2️⃣ Datei in den Bucket hochladen<br>
+2️.) Datei in den Bucket hochladen<br>
 ```html
 aws s3 cp "C:\temp\TestRetention.txt" "s3://bhvhomesupport/TestRetention.txt" --endpoint-url https://nbg1.your-objectstorage.com --profile hetzner
 ```
-3️⃣ VersionID prüfen<br>
+3️.) VersionID prüfen<br>
 ```html
 aws s3api list-object-versions --bucket bhvhomesupport --prefix "TestRetention.txt" --endpoint-url https://nbg1.your-objectstorage.com --profile hetzner
 ```
@@ -55,17 +61,17 @@ Ergebniss:<br>
         }
     ]
 }<p>
-4️⃣ Retention JSON-Datei erstellen<br>
+4️-) Retention JSON-Datei erstellen<br>
 Erstelle die Datei C:\temp\retention.json mit diesem Inhalt. Die Datei enthält gültiges JSON für Compliance Retention.<br>
 {<br>
   "Mode": "COMPLIANCE",<br>
   "RetainUntilDate": "2025-11-06T22:44:43Z"<br>
 }<br>
-5️⃣ Retention für die Datei setzen<br>
+5.) Retention für die Datei setzen<br>
 ```html
 aws s3api put-object-retention --bucket bhvhomesupport --key "TestRetention.txt" --version-id "Vdbt-56vG.-jjyfxggGboS5XaAjsRt5" --retention file://C:\temp\retention.json --endpoint-url https://nbg1.your-objectstorage.com --profile hetzner
 ```
-6️⃣ Retention prüfen<br>
+6.) Retention prüfen<br>
 ```html
 aws s3api get-object-retention --bucket bhvhomesupport --key "TestRetention.txt" --version-id "Vdbt-56vG.-jjyfxggGboS5XaAjsRt5" --endpoint-url https://nbg1.your-objectstorage.com --profile hetzner
 ```
@@ -74,8 +80,8 @@ aws s3api get-object-retention --bucket bhvhomesupport --key "TestRetention.txt"
         "Mode": "COMPLIANCE",<br>
         "RetainUntilDate": "2025-11-06T22:44:43Z"<br>
     }<br>
-}<br>
-7️⃣ Test: Datei löschen (soll scheitern)<br>
+}<p>
+7.) Test: Datei löschen (soll scheitern)<br>
 ```html
 aws s3api delete-object --bucket bhvhomesupport --key "TestRetention.txt" --version-id "Vdbt-56vG.-jjyfxggGboS5XaAjsRt5" --endpoint-url https://nbg1.your-objectstorage.com --profile hetzner
 ```
@@ -85,8 +91,8 @@ In der Hetzner lässt die Datei sich aber trotzdem löschen<br>
 Warum die Datei im Browser „unsichtbar“ wird<br>
 Wenn du versuchst, ein Objekt zu löschen, wird ein Delete Marker erstellt.<br>
 Delete Marker = neueste Version, die anzeigt: „Datei gelöscht“.<br>
-Alte Version(en) bleiben im Bucket, sind aber nicht die „neueste Version“ → Browser zeigt sie nicht mehr automatisch.<br>
-8️⃣ Sichtbar machen ohne neu hochzuladen<br>
+Alte Version(en) bleiben im Bucket, sind aber nicht die „neueste Version“ → Browser zeigt sie nicht mehr automatisch.<p>
+8.) Sichtbar machen ohne neu hochzuladen<br>
 Delete Marker entfernen (die alte Version bleibt bestehen)<br>
 Du brauchst die VersionID des Delete Markers<br>
 ```html
@@ -110,7 +116,7 @@ aws s3 cp "C:\temp\TestRetention.txt" "s3://bhvhomesupport/TestRetention.txt" --
 ```
 Neue Version hat noch keine Retention, Datei wieder sichtbar im Browser. Alte Version bleibt geschützt.<p>
 
-🔹 Zusammenfassung der Befehle:<p>
+Zusammenfassung der Befehle:<p>
 
 1	Lokalen Ordner & Datei erstellen	New-Item ...	Datei TestRetention.txt existiert<br>
 2	Datei hochladen	aws s3 cp ...	Datei im Bucket vorhanden<br>
