@@ -56,7 +56,7 @@ Ergebniss:<br>
     ]
 }<p>
 4️⃣ Retention JSON-Datei erstellen<br>
-Erstelle Datei C:\temp\retention.json mit Inhalt. Die Datei enthält gültiges JSON für Compliance Retention.<br>
+Erstelle die Datei C:\temp\retention.json mit diesem Inhalt. Die Datei enthält gültiges JSON für Compliance Retention.<br>
 {<br>
   "Mode": "COMPLIANCE",<br>
   "RetainUntilDate": "2025-11-06T22:44:43Z"<br>
