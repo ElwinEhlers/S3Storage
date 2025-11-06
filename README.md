@@ -6,11 +6,11 @@ https://awscli.amazonaws.com/AWSCLIV2.msi
 ```html
 aws --version
 ```
-In der Hetzner GUI unter Object-Storage einen Bucket erstellen
-Object Lock aktivieren Es verhindert das ändern oder löschen.<p>
+In der Hetzner GUI unter Object-Storage einen Bucket erstellen,<br>
+Object Lock aktivieren. Es verhindert das Ändern oder Löschen.<p>
 Sichtbarkeit Privat<br>
 
-Schutz aktivieren so ist das Bucket vor verrehentlichen löschen in der GUI geschützt.
+Schutz aktivieren - So ist das Bucket vor versehentlichem Löschen in der GUI geschützt.<br>
 Zugangsdaten einrichten:
 ```html
 aws configure --profile hetzner
@@ -47,7 +47,7 @@ New-Item -Path "C:\temp\TestRetention.txt" -ItemType File -Value "Dies ist TestR
 ```html
 aws s3 cp "C:\temp\TestRetention.txt" "s3://bhvhomesupport/TestRetention.txt" --endpoint-url https://nbg1.your-objectstorage.com --profile hetzner
 ```
-3️.) VersionID prüfen<br>
+3️.) Version ID prüfen<br>
 ```html
 aws s3api list-object-versions --bucket bhvhomesupport --prefix "TestRetention.txt" --endpoint-url https://nbg1.your-objectstorage.com --profile hetzner
 ```
@@ -87,12 +87,12 @@ aws s3api delete-object --bucket bhvhomesupport --key "TestRetention.txt" --vers
 ```
 Erwartetes Ergebnis:<br>
 An error occurred (AccessDenied) when calling the DeleteObject operation: forbidden by object lock<p>
-In der Hetzner lässt die Datei sich aber trotzdem löschen<br>
-Warum die Datei im Browser „unsichtbar“ wird<br>
+In der Hetzner Web GUI lässt die Datei sich aber trotzdem löschen.<br>
+Warum die Datei im Browser „unsichtbar“ wird.<br>
 Wenn du versuchst, ein Objekt zu löschen, wird ein Delete Marker erstellt.<br>
 Delete Marker = neueste Version, die anzeigt: „Datei gelöscht“.<br>
 Alte Version(en) bleiben im Bucket, sind aber nicht die „neueste Version“ → Browser zeigt sie nicht mehr automatisch.<p>
-8.) Sichtbar machen ohne neu hochzuladen<br>
+8.) Sichtbar machen, ohne neu hochzuladen.<br>
 Delete Marker entfernen (die alte Version bleibt bestehen)<br>
 Du brauchst die VersionID des Delete Markers<br>
 ```html
@@ -125,7 +125,7 @@ Zusammenfassung der Befehle:<p>
 5	Retention setzen	aws s3api put-object-retention ...	Retention aktiv<br>
 6	Retention prüfen	aws s3api get-object-retention ...	Compliance Mode angezeigt<br>
 7	Datei löschen testen	aws s3api delete-object ...	AccessDenied, Datei bleibt geschützt<br>
-8 Delete Marker entfernen	aws s3api delete-object ...	Datei wieder sichtbar, Retention bleibt<br>
+8   Delete Marker entfernen	aws s3api delete-object ...	Datei wieder sichtbar, Retention bleibt<br>
 
 
 
