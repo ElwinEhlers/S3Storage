@@ -54,7 +54,7 @@ Ergebniss:<br>
             "IsLatest": true
         }
     ]
-}
+}<p>
 4️⃣ Retention JSON-Datei erstellen<br>
 Erstelle Datei C:\temp\retention.json mit Inhalt. Die Datei enthält gültiges JSON für Compliance Retention.<br>
 {<br>
