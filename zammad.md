@@ -8,8 +8,8 @@ apt install restic
 
 Umgebungsvariablen setzen
 ```html
-export AWS_ACCESS_KEY_ID="QWSY7SMWCT27DGIWYLXE"  
-export AWS_SECRET_ACCESS_KEY="sB7Xrwdid5TcSZLOxS3bfj9qJsNuutR1z8Dj73oL"  
+export AWS_ACCESS_KEY_ID="aws_access_key_id"  
+export AWS_SECRET_ACCESS_KEY="aws_secret_access_key"  
 export RESTIC_PASSWORD="Sichern1"  
 export RESTIC_REPOSITORY="s3:bhvhomesupport:/zammad-backup"  
 export RESTIC_S3_ENDPOINT="https://nbg1.your-objectstorage.com"  
